@@ -22,8 +22,19 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery:2.1.2.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'//监控检查
+    implementation "org.springframework.boot:spring-boot-starter-security"
+}
+ext {
+    set('springCloudVersion', "Greenwich.SR2")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 application {
