@@ -15,20 +15,31 @@ repositories {
 }
 
 dependencies {
+//    implementation "org.springframework.boot:spring-boot-gradle-plugin:2.1.7.RELEASE"
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:28.0-jre'
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery:2.1.2.RELEASE'
-
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'//监控检查
+    implementation "org.springframework.boot:spring-boot-starter-security"
+}
+ext {
+    set('springCloudVersion', "Greenwich.SR2")
 }
 
-//application {
-//    // Define the main class for the application
-//    mainClassName = 'MicroService.App'
-//}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+application {
+    mainClassName = 'com.weimin.jms.JmsApplication'
+}
 
 task createWrapper(type: Wrapper) {
     gradleVersion = '5.6'
@@ -37,7 +48,7 @@ task createWrapper(type: Wrapper) {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 group "com.weimin"
-version "1.0.0-SNAPSHOT"
+version "0.1.0-SNAPSHOT"
 
 idea {
     module {
