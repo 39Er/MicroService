@@ -26,6 +26,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'//监控检查
     implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation 'org.springframework.retry:spring-retry:1.2.4.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 ext {
     set('springCloudVersion', "Greenwich.SR2")
