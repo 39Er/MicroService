@@ -1,0 +1,23 @@
+server:
+  port: 8005
+spring:
+  application:
+    name: service-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: webserv
+          uri: lb://microService
+          predicates:
+            - Path=/api/app/**
+          filters:
+            - StripPrefix=1 #在转发之前将/api去掉
+consul:
+  host: 127.0.0.1 #注册gateway网关到consul
+  port: 8500
+  discovery:
+    service-name: service-gateway

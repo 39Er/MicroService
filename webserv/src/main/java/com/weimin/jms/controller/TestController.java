@@ -1,6 +1,7 @@
 package com.weimin.jms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -20,6 +21,8 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 @RequestMapping("/app")
 public class TestController {
+    @Value("${service.env.type}")
+    private String env;
 
     @Autowired
     private LoadBalancerClient loadBalancerClient;
@@ -30,26 +33,26 @@ public class TestController {
     @RequestMapping("/test")
     @ResponseBody
     public String testApi() {
-        return "HELLO,WORLD";
+        return String.format("Hello,%s", env);
     }
 
     @RequestMapping("/services")
     @ResponseBody
-    public Object services(){
+    public Object services() {
         return discoveryClient.getInstances("microService");
     }
 
     @RequestMapping("/discover")
     @ResponseBody
-    public String discover(){
+    public String discover() {
         return loadBalancerClient.choose("microService").getUri().toString();
     }
 
     @RequestMapping("/call")
     @ResponseBody
-    public String call(){
-        ServiceInstance service=loadBalancerClient.choose("microService");
-        String callResult=new RestTemplate().getForObject(service.getUri().toString()+"/app/test",String.class);
+    public String call() {
+        ServiceInstance service = loadBalancerClient.choose("microService");
+        String callResult = new RestTemplate().getForObject(service.getUri().toString() + "/app/test", String.class);
         return callResult;
     }
 }
